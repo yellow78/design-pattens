@@ -40,15 +40,18 @@ func Consumer(taskChs ...<-chan string) <-chan string {
 	consumerCh := make(chan string, len(taskChs))
 
 	var waitGroup sync.WaitGroup
+	// 需等待任務之數量
 	waitGroup.Add(len(taskChs))
 
 	go func() {
+		// 開始等待任務, 等到等待任務之數量為0時
 		waitGroup.Wait()
 		close(consumerCh)
 	}()
 
 	for _, task := range taskChs {
 		go func(task <-chan string) {
+			// 完成任務 wait -1數量
 			defer waitGroup.Done()
 			for response := range task {
 				consumerCh <- response
