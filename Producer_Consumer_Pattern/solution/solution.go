@@ -30,6 +30,10 @@ func Metch(getJob <-chan User, id int, driverName string) {
 }
 
 func main() {
+	now := time.Now().UTC().Add(-4 * time.Hour)
+	// 當下小時
+	nowStr := now.Format("2006-01-02 15:00:00")
+	fmt.Println(nowStr)
 	sendjob := make(chan User)
 
 	// 五位司機線上處理訂單
